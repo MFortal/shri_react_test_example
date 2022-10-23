@@ -1,0 +1,187 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 24px;
+  justify-content: space-between;
+}
+
+.card_img {
+  width: 275px;
+  height: 400px;
+  overflow: hidden;
+
+  position: relative;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_labels {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 3px 5px;
+  border-radius: 4px;
+
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 14px;
+
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.header_hit {
+  background: #f53d3d;
+}
+
+.header_sale {
+  background: #11c66c;
+}
+
+.favorite {
+  cursor: pointer;
+  width: 20px;
+  height: 19px;
+}
+
+.noFavorite {
+  background: url("../assets/emptyFavoriteIcon.svg") no-repeat center center;
+}
+
+.isFavorite {
+  background: url("../assets/fillHeartIcon.svg") no-repeat center center;
+}
+
+.card_btns {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 8px;
+
+  background: #f6f6f6;
+  border-radius: 12px;
+}
+
+.btn_cart {
+  background: #cff4e2;
+}
+
+.btn_cart:hover {
+  background: #70dda7;
+}
+
+.btn_buy {
+  background: #f6f6f6;
+}
+
+.card_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #434851;
+}
+
+.prices {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.price {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  color: #141a25;
+}
+
+.price_old {
+  color: #f20d0d;
+}
+
+.price_through {
+  text-decoration-line: line-through;
+  color: #141a25;
+}
+
+.info {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.info_text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #72757c;
+
+  position: relative;
+  padding-left: 24px;
+}
+
+.info_text::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+}
+
+.info_width::before {
+  background-image: url("../assets/bouquetWidthIcon.svg");
+}
+
+.info_height::before {
+  background-image: url("../assets/bouquetWidthIcon.svg");
+}
+
+.info_count::before {
+  background-image: url("../assets/flowersCountIcon.svg");
+}
