@@ -1,5 +1,6 @@
 import cn from "classnames";
 import styles from "./ProductCard.module.css";
+import { useState } from "react";
 
 export const ProductCard = (props) => {
   const {
@@ -28,6 +29,8 @@ export const ProductCard = (props) => {
       .trim();
   }
 
+  const [favoriteFlag, changeFavorite] = useState(isFavorite);
+
   return (
     <div className={cn(styles.card)} data-testid="product-card">
       <div className={cn(styles.card_img)}>
@@ -46,8 +49,9 @@ export const ProductCard = (props) => {
           <span
             className={cn(
               styles.favorite,
-              isFavorite ? styles.isFavorite : styles.noFavorite
-            )}></span>
+              favoriteFlag ? styles.isFavorite : styles.noFavorite
+            )}
+            onClick={() => changeFavorite(!favoriteFlag)}></span>
         </div>
       </div>
       <div className={cn(styles.card_info)}>
