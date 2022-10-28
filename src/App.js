@@ -5,11 +5,10 @@ import styles from "./App.module.css";
 
 export const App = () => {
   const bouquetList = useSelector((state) => state.card);
- 
   return (
     <div className={styles.root}>
       <h1>Каталог</h1>
-      <div className={styles.list}>
+      <div className={styles.list} data-testid="list">
         {bouquetList.map((bouquet) => (
           <ProductCard key={bouquet.id} {...bouquet} />
         ))}

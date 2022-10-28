@@ -1,16 +1,27 @@
-import {render, screen} from "@testing-library/react";
-import {App} from "./App";
+import { render, screen } from "@testing-library/react";
+import { App } from "./App";
+import React from "react";
+import { Provider } from "react-redux";
+import { initStore } from "./store/index";
 
-describe('Компонент App', () => {
-    it('Отображает заголовок «Каталог»', () => {
-        render(<App />)
+const store = initStore();
 
-        expect(screen.queryByText('Каталог')).toBeInTheDocument();
-    });
+describe("Компонент App", () => {
+  const application = (
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
+  );
 
-    it('Отображает карточки товара', () => {
-        render(<App />)
+  it("Отображает заголовок «Каталог»", () => {
+    render(application);
+    expect(screen.getByText("Каталог")).toBeInTheDocument();
+  });
 
-        expect(screen.queryAllByTestId('product-card').length).toBeGreaterThan(0);
-    });
+  it("Отображает карточки товаров", () => {
+    render(application);
+    expect(screen.queryAllByTestId("product-card").length).toBeGreaterThan(0);
+  });
 });

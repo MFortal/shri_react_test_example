@@ -2,32 +2,53 @@ import { getBouquetList } from "../__mocks__/bouquetList";
 
 const ADD_CARD = "ADD_CARD";
 const REMOVE_CARD = "REMOVE_CARD";
-const UPDATE_CARD = "UPDATE_CARD";
-const REMOVE_COMMENT = "REMOVE_COMMENT";
-const ADD_COMMENT = "ADD_COMMENT";
+const TOGGLE_FAVORITE = "TOGGLE_FAVORITE";
+const IN_CART = "IN_CART";
 
 export const addCardAction = (payload) => ({ type: ADD_CARD, payload });
 export const removeCardAction = (payload) => ({ type: REMOVE_CARD, payload });
-export const updateCardAction = (payload) => ({ type: UPDATE_CARD, payload });
-export const removeCommentAction = (payload) => ({
-  type: REMOVE_COMMENT,
+export const toggleFavoriteAction = (payload) => ({
+  type: TOGGLE_FAVORITE,
   payload,
 });
-export const addCommentAction = (payload) => ({ type: ADD_COMMENT, payload });
+export const inCartAction = (payload) => ({
+  type: IN_CART,
+  payload,
+});
 
 const initialState = getBouquetList();
 
 export const cardReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case ADD_CARD: {
-    //   const newCard = action.payload;
-    //   return [...state, newCard];
-    // }
+    case TOGGLE_FAVORITE: {
+      const id = action.payload;
+      return [...state].map((card) => {
+        if (card.id === id) {
+          card.isFavorite = !card.isFavorite;
+        }
+        return card;
+      });
+    }
 
-    // case REMOVE_CARD: {
-    //   const id = action.payload;
-    //   return [...state].filter((card) => card.id !== id);
-    // }
+    case ADD_CARD: {
+      const newCard = action.payload;
+      return [...state, newCard];
+    }
+
+    case REMOVE_CARD: {
+      const id = action.payload;
+      return [...state].filter((card) => card.id !== id);
+    }
+
+    case IN_CART: {
+      const id = action.payload;
+      return [...state].filter((card) => {
+        if (card.id === id) {
+          --card.flowersCount;
+        }
+        return card;
+      });
+    }
 
     // case UPDATE_CARD: {
     //   const updateCard = action.payload;

@@ -1,9 +1,12 @@
 import cn from "classnames";
+import { useState, useEffect } from "react";
 import styles from "./ProductCard.module.css";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { toggleFavoriteAction, inCartAction } from "../store/cardReducer";
 
 export const ProductCard = (props) => {
   const {
+    id,
     title,
     imageUrl,
     oldPrice,
@@ -28,20 +31,56 @@ export const ProductCard = (props) => {
       .join("")
       .trim();
   }
+  const dispatch = useDispatch();
 
-  const [favoriteFlag, changeFavorite] = useState(isFavorite);
+  const toggleFavorite = (id) => {
+    dispatch(toggleFavoriteAction(id));
+  };
+
+  const addCart = (id) => {
+    dispatch(inCartAction(id));
+  };
+
+  const [url, setUrl] = useState("");
+  useEffect(() => {
+    fetch(imageUrl)
+      .then((response) => response.blob())
+      .then((image) => {
+        setUrl(URL.createObjectURL(image));
+      });
+  });
+
+  const imgContainer = url ? (
+    <img
+      className={cn(styles.img)}
+      src={url}
+      alt=""
+      data-testid="current-img"></img>
+  ) : (
+    <img
+      className={cn(styles.img)}
+      src="https://gosapteka22.ru/image/cache/catalog/no_photo-1000x1000.jpg"
+      alt=""
+      data-testid="plug-img"></img>
+  );
 
   return (
     <div className={cn(styles.card)} data-testid="product-card">
       <div className={cn(styles.card_img)}>
-        <img className={cn(styles.img)} src={imageUrl} alt=""></img>
+        {imgContainer}
         <div className={cn(styles.header)}>
           <div className={cn(styles.header_labels)}>
             {Boolean(isHit) && (
-              <span className={cn(styles.label, styles.header_hit)}>Хит</span>
+              <span
+                className={cn(styles.label, styles.header_hit)}
+                data-testid="hit">
+                Хит
+              </span>
             )}
             {Boolean(isSale) && (
-              <span className={cn(styles.label, styles.header_sale)}>
+              <span
+                className={cn(styles.label, styles.header_sale)}
+                data-testid="sale">
                 Скидка
               </span>
             )}
@@ -49,16 +88,19 @@ export const ProductCard = (props) => {
           <span
             className={cn(
               styles.favorite,
-              favoriteFlag ? styles.isFavorite : styles.noFavorite
+              isFavorite ? styles.isFavorite : styles.noFavorite
             )}
-            onClick={() => changeFavorite(!favoriteFlag)}></span>
+            onClick={() => toggleFavorite(id)}
+            data-testid="favorite-btn"></span>
         </div>
       </div>
       <div className={cn(styles.card_info)}>
         <p className={cn(styles.title)}>{title}</p>
         <div className={cn(styles.prices)}>
           {Boolean(oldPrice) && (
-            <p className={cn(styles.price, styles.price_old)}>
+            <p
+              className={cn(styles.price, styles.price_old)}
+              data-testid="old-price">
               {toFormat(oldPrice)} ₽
             </p>
           )}
@@ -67,20 +109,48 @@ export const ProductCard = (props) => {
           </p>
         </div>
         <div className={cn(styles.info)}>
-          <div className={cn(styles.info_text, styles.info_count)}>
-            {flowersCount} шт
-          </div>
-          <div className={cn(styles.info_text, styles.info_height)}>
-            {bouquetHeight} см
-          </div>
-          <div className={cn(styles.info_text, styles.info_width)}>
-            {bouquetWidth} см
-          </div>
+          {Boolean(flowersCount) && flowersCount > 0 && (
+            <div
+              className={cn(styles.info_text, styles.info_count)}
+              data-testid="count">
+              {flowersCount} шт
+            </div>
+          )}
+          {Boolean(bouquetHeight) && bouquetHeight > 0 && (
+            <div
+              className={cn(styles.info_text, styles.info_height)}
+              data-testid="height">
+              {bouquetHeight} см
+            </div>
+          )}
+          {Boolean(bouquetWidth) && bouquetWidth > 0 && (
+            <div
+              className={cn(styles.info_text, styles.info_width)}
+              data-testid="width">
+              {bouquetWidth} см
+            </div>
+          )}
         </div>
       </div>
       <div className={cn(styles.card_btns)}>
-        <button className={cn(styles.btn, styles.btn_cart)}>В корзину</button>
-        <button className={cn(styles.btn, styles.btn_buy)}>Купить сразу</button>
+        <button
+          className={cn(
+            styles.btn,
+            styles.btn_cart,
+            flowersCount <= 0 ? styles.btn_disabled : ""
+          )}
+          onClick={() => (flowersCount > 0 ? addCart(id) : "")}>
+          В корзину
+        </button>
+        <button
+          className={cn(
+            styles.btn,
+            styles.btn_buy,
+            flowersCount <= 0 ? styles.btn_disabled : ""
+          )}
+          onClick={() => (flowersCount > 0 ? addCart(id) : "")}>
+          Купить сразу
+        </button>
       </div>
     </div>
   );
